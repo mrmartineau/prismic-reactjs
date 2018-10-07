@@ -3,16 +3,18 @@
 [![npm version](https://badge.fury.io/js/prismic-reactjs.svg)](http://badge.fury.io/js/prismic-reactjs)
 [![Build Status](https://api.travis-ci.org/prismicio/prismic-reactjs.png)](https://travis-ci.org/prismicio/prismic-reactjs)
 
-* The [source code](https://github.com/prismicio/prismic-reactjs) is on Github.
-* The [Changelog](https://github.com/prismicio/prismic-reactjs/releases) is on Github's releases tab.
-* The [API reference](https://prismicio.github.io/prismic-javascript/globals.html) is on Github.
+- The [source code](https://github.com/prismicio/prismic-reactjs) is on Github.
+- The [Changelog](https://github.com/prismicio/prismic-reactjs/releases) is on Github's releases tab.
+- The [API reference](https://prismicio.github.io/prismic-javascript/globals.html) is on Github.
 
 It's meant to work in pair with the prismic-javascript library, a new javascript kit for the prismic API v2 available here:
-* [prismic-javascript](https://github.com/prismicio/prismic-javascript) is on Github.
+
+- [prismic-javascript](https://github.com/prismicio/prismic-javascript) is on Github.
 
 ### Installation
 
 #### Prismic Api Endpoint
+
 Your endpoint must contains "v2" at the end, otherwise it means that you're working on the API V1 so this library won't work for you.
 
 ```javascript
@@ -39,32 +41,98 @@ On our release page: [https://github.com/prismicio/prismic-reactjs/releases](htt
 
 The kit is universal, it can be used:
 
-* Server-side with NodeJS
-* Client-side as part of your build with Browserify, Webpack
-* Client-side with a simple script tag
+- Server-side with NodeJS
+- Client-side as part of your build with Browserify, Webpack
+- Client-side with a simple script tag
 
 ### Usage
 
-* Import Prismic React or directly the helpers inside
-``` javascript
-import {Link, RichText, Date} from 'prismic-reactjs';
+- Import Prismic React or directly the helpers inside
+
+```javascript
+import { Link, RichText, Date } from 'prismic-reactjs'
 ```
 
-Render a RichText:
+#### Render a RichText:
 
- * As React Component
-```javascript
-  RichText.render(mydoc.data.myrichtext, linkResolver)
+- As React Component
+
+```js
+RichText.render(mydoc.data.myrichtext, linkResolver)
 ```
 
- * As Text
-```javascript
-  DOM.RichText.asText(mydoc.data.myrichtext)
+- As React Component with custom elements<br>
+
+Each element can be overridden with your own React components. The below snippet includes all possible options.
+
+```js
+RichText.render(
+  mydoc.data.myrichtext,
+  {
+    heading1: CustomH1,
+    heading2: CustomH2,
+    heading3: CustomH3,
+    heading4: CustomH4,
+    heading5: CustomH5,
+    heading6: CustomH6,
+    paragraph: CustomParagraph,
+    preformatted: CustomPreformatted,
+    strong: CustomStrong,
+    em: CustomEm,
+    listItem: CustomListItem,
+    oListItem: CustomOListItem,
+    list: CustomList,
+    oList: CustomOList,
+    image: CustomImage,
+    embed: CustomEmbed,
+    hyperlink: CustomHyperlink,
+    label: CustomLabel,
+    span: CustomSpan,
+  },
+  linkResolver
+)
+```
+
+##### A simple example using custom components and styled-components
+
+This example creates a new component in your app using 3 custom style-components. See [this CodeSandbox](https://codesandbox.io/s/0po61jr5nl) for working example.
+
+```js
+import { RichText } from 'prismic-richtext'
+import styled from 'styled-components'
+
+const Heading1 = styled.h1`
+  color: red;
+  text-decoration: underline;
+`
+
+const Heading2 = styled.h2`
+  color: green;
+  font-style: italic;
+  font-weight: normal;
+`
+
+const Image = styled.img`
+  max-width: 100%;
+`
+
+export default ({ data }) =>
+  RichText.render(data, {
+    heading1: Heading1,
+    heading2: Heading2,
+    image: Image,
+  })
+```
+
+- As Text
+
+```js
+DOM.RichText.asText(mydoc.data.myrichtext)
 ```
 
 Get a URL from a Link fragment of any kind
 
-```javascript
+```js
 //link resolver not required if sure that it's not a document link
 Link.url(mydoc.data.mylink, ctx.linkResolver)
 ```

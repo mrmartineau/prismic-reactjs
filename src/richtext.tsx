@@ -46,7 +46,7 @@ function serialize(
   children: React.ReactNode,
   index: number
 ) {
-  const opts = Object.assign({}, {}, options)
+  const opts = Object.assign({}, options)
   switch (type) {
     case Elements.heading1:
       return chooseElement('h1', element, children, index, opts.heading1)
